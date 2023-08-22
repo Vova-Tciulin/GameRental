@@ -1,0 +1,181 @@
+﻿@model List<AccountVm>
+
+@{
+    ViewBag.Title = "Игровые аккаунты";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="col text-start offset-md-2  mt-lg-5">
+        <h2>Аккаунты </h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Аккаунты</li>
+            </ol>
+        </nav>
+        
+    </div>
+
+    <div class="col offset-md-2 mt-lg-3">
+        <a asp-action="AddAccount" class="btn btn-primary rounded-4">Добавить аккаунт</a>
+    </div>
+    <div class="col-md-8 offset-md-2 my-lg-3">
+            @if (Model.Count == 0)
+            {
+                <div class="col text-center">
+                    <h2>Нет ни одного аккаунта</h2>
+                </div>
+            }
+            else
+            {
+                @if (Model.Exists(u => u.Orders.Exists(x => x.IsActive && x.EndOrderDate < DateTime.Today)))
+                {
+                    <h2>Аккаунты, аренда которых подошла к концу</h2>
+                    <table class="table table-sm table-striped border">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Номер аккаунта</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Тип консоли</th>
+                            <th scope="col">Арендован</th>
+                            <th scope="col">Дата окончания аренды</th>
+                            <th scope="col">Изменить</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (var account in Model.Where(u => u.Orders.Exists(x => x.IsActive && x.EndOrderDate < DateTime.Today)))
+                        {
+                            <tr>
+                                <th scope="row">@account.Id</th>
+                                <td>@account.Name</td>
+                                <td>#@account.AccountNumber</td>
+                                <td>@account.Price руб.</td>
+                                <td>
+                                    @account.Consoles[0].Name
+                                    @for (int i = 1; i < account.Consoles.Count;i++)
+                                    {
+                                        <span>/</span>@account.Consoles[i].Name
+                                    }
+                                </td>
+                                <td>да</td>
+                                <td>@account.Orders[0].EndOrderDate</td>
+                                <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="Update" asp-route-id=@account.Id>изменить</a></td>
+                            </tr>
+                        }
+
+
+                        </tbody>
+
+                    </table>
+                }
+                @if (Model.Exists(u => u.Orders.Exists(x => x.IsActive && x.EndOrderDate > DateTime.Today)))
+                {
+                    <h2>Арендованные аккаунты</h2>
+                    <table class="table table-sm table-striped border">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Номер аккаунта</th>
+                            <th scope="col">Цена</th>
+                             <th scope="col">Тип консоли</th>
+                            <th scope="col">Арендован</th>
+                            <th scope="col">Дата окончания аренды</th>
+                            <th scope="col">Изменить</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (var account in Model.Where(u => u.Orders.Exists(x => x.IsActive && x.EndOrderDate > DateTime.Today)))
+                        {
+                            <tr>
+                                <th scope="row">@account.Id</th>
+                                <td>@account.Name</td>
+                                <td>@account.AccountNumber</td>
+                                <td>@account.Price</td>
+                                <td>
+                                    @account.Consoles[0].Name
+                                    @for (int i = 1; i < account.Consoles.Count;i++)
+                                    {
+                                        <span>/</span>@account.Consoles[i].Name
+                                    }
+                                </td>
+                                
+                                <td>да</td>
+                                <td>@account.Orders[0].EndOrderDate</td>
+                                <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="Update" asp-route-id=@account.Id>изменить</a></td>
+                                
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                @if (Model.Exists(u=>u.IsRented==false))
+                {
+                    <h2>Доступные аккаунты</h2>
+                    <table class="table table-sm table-striped border">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Номер аккаунта</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Тип консоли</th>
+                            <th scope="col">Арендован</th>
+                            <th scope="col">Изменить</th>
+                            <th scope="col">Удалить</th>
+                        </tr>
+                        </thead>
+                        <tbody id="accountBody">
+
+                        @foreach (var account in Model.Where(u=>u.IsRented==false))
+                        {
+                            <tr id="account_@account.Id">
+                                <th scope="row">@account.Id</th>
+                                <td>@account.Name</td>
+                                <td>@account.AccountNumber</td>
+                                <td>@account.Price</td>
+                                <td>
+                                    @account.Consoles[0].Name
+                                    @for (int i = 1; i < account.Consoles.Count;i++)
+                                    {
+                                        <span>/</span>@account.Consoles[i].Name
+                                    }
+                                </td>
+                                
+                                <td>Нет</td>
+                                <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="Update" asp-route-id=@account.Id>изменить</a></td>
+                                <td><button class="btn btn-sm btn-danger rounded-4 " onclick="removeAccount(@account.Id)">удалить</button></td>
+                            </tr>
+                        }
+                        </tbody>
+
+                    </table>
+                }
+            }
+            
+        </div>
+    
+</div>
+
+@section Scripts
+{
+    <script>
+        async function removeAccount(id){
+            const response=await fetch("RentAccount/Delete/"+id);
+            if (response.ok===true){
+                const rowId="account_"+id;             
+                const table=document.getElementById("accountBody");
+                console.log(table);
+                const row=document.getElementById(rowId);
+                console.log(row);
+                table.removeChild(row);            
+            }
+        }
+    </script>
+}
+

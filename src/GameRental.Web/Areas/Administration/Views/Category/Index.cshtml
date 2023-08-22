@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ProductCategoryVM>?
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="col  offset-md-3 mt-lg-5">
+        <h2>Категории</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Категории</li>
+            </ol>
+        </nav>
+        
+    </div>
+    
+    <div class="col offset-md-3 mt-lg-3">
+        <a asp-action="AddCategory" class="btn btn-primary rounded-4">Создать категорию</a>
+    </div>
+    
+    <div class="col-md-6 offset-md-3 my-lg-3">
+        @if (Model == null)
+        {
+            <div class="col text-center">
+                <h2>Нет ни одной категории</h2>
+            </div>
+        }
+        else
+        {
+            <table class="table table-sm table-striped border">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#id</th>
+                    <th scope="col">Категория</th>
+                    <th scope="col">Изменить</th>
+                    <th scope="col">Удалить</th>
+                </tr>
+                </thead>
+                <tbody id="categoryBody">
+                
+                @foreach (var category in Model)
+                {
+                    <tr id="category_@category.Id">
+                        <th scope="row">@category.Id</th>
+                        <td>@category.Name</td>
+                        <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="Update" asp-route-id=@category.Id>изменить</a></td>
+                        <td><button class="btn btn-sm btn-danger rounded-4 " onclick="removeCategory(@category.Id)">удалить</button></td>
+                    </tr>
+                }
+                
+
+                </tbody>
+
+            </table>
+        }
+    </div>
+    
+</div>
+
+@section Scripts
+{
+    <script>
+        async function removeCategory(id){
+            const response=await fetch("Category/Delete/"+id);
+            if (response.ok===true){
+                const rowId="category_"+id;             
+                const table=document.getElementById("categoryBody");
+                console.log(table);
+                const row=document.getElementById(rowId);
+                console.log(row);
+                table.removeChild(row);            
+            }
+         
+        }
+    </script>
+}
+}
+

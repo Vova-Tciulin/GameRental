@@ -1,0 +1,70 @@
+﻿@model UserRegistrationModel
+
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "_Layout";
+}
+
+
+@section Link
+{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5 "  tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Регистрация</h1>
+                <a asp-action="Index" asp-controller="Home"  class="btn-close"  aria-label="Close"></a>
+            </div>
+
+            <div class="modal-body p-5 pt-0">
+                <form asp-action="Register" method="post">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" type="email" class="form-control rounded-3" placeholder="name@example.com">
+                        <label >Почта</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="LinkToNetwork" type="text" class="form-control rounded-3" placeholder>
+                        <label asp-for="LinkToNetwork">Ссылка на tg</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Password" type="password" class="form-control rounded-3" placeholder="Password">
+                        <label asp-for="Password">Пароль</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="ConfirmPassword" type="password" class="form-control rounded-3"  placeholder="Password">
+                        <label asp-for="ConfirmPassword">Подтвердите пароль</label>
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Регистрация</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    @section Scripts {
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+ }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

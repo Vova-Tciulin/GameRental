@@ -1,0 +1,211 @@
+﻿@using GameRental.Web.Extensions
+@model ProductDetailsVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid bg-body-tertiary">
+        <div class="col text-start p-4">
+            <h3 class="text-secondary-emphasis">Аренда и прокат @Model.Name для PS4 или PS5</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Category" asp-action="Index" class="text-decoration-none link-secondary">Каталог</a></li>
+                    <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index" asp-route-id="@Model.ProductCategories[0].Id" class="text-decoration-none link-secondary">@Model.ProductCategories[0].Name</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+                </ol>
+            </nav>
+            
+        </div>
+    <div class="row mx-4">
+        <div class="col-md-9">
+            <div class="row border py-5">
+                <div id="carouselExampleIndicators" class="carousel slide col-md-8 mx-auto">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        @for (int i = 1; i < Model.Images.Count; i++)
+                        {
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@i" aria-label="Slide @(i+1)"></button>
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="@WebConst.ImageProductPath@Model.Images[0].ImgName" class="d-block w-100" height="500px">
+                        </div>
+                        
+                        @for (int i=1;i < Model.Images.Count; i++)
+                        {
+                            <div class="carousel-item">
+                                <img src="@WebConst.ImageProductPath@Model.Images[i].ImgName" class="d-block w-100" height="500px">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row text-start my-2">
+                <p class="fs-4">Цены</p>
+            </div>
+
+            
+            @foreach (var account in Model.Accounts)
+            {
+                <div class="row border">
+                    <div class="col-md-2 p-1">
+                        <img src="@WebConst.ImageProductPath@Model.Images[0].ImgName" class="rounded"  style="width: 100px;">
+                    </div>
+                    <div class="col-md-2 text-start p-1">
+                        <p class="my-0" style="font-size: 12px;">@Model.Name</p>
+                        
+                        @if (account.IsRented == false)
+                        {
+                            <p class="text-success my-0" style="font-size: 12px;">&#8226 в наличии</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger my-0" style="font-size: 12px;">&#8226 занят</p>
+                        }
+                        <p class="text-secondary" style="font-size: 12px;">Номер аккаунта: <span>#@account.AccountNumber</span></p>
+                    </div>
+                    <div class="col-md-4 text-center m-auto">
+                        <p class="fs-3">@account.Price руб./нед.</p>
+                    </div>
+                    <div class="col-md-2 m-auto d-grid gap-2" id="account_@account.Id">
+                        @{
+                            int? accountId=Context.Session.Get<int>("accountId");
+                        }
+                        @if (accountId!=null&&accountId==account.Id)
+                        {
+                            <a asp-action="ViewCart" asp-controller="Cart" class="btn btn-primary rounded-4">В корзине</a>
+                        }
+                        else if (account.IsRented == false)
+                        {
+                            <button onclick="addToCart(@account.Id)" id="button_@account.Id" class="btn btn-success rounded-4">В корзину</button>
+                        }
+                        else
+                        {
+                            <button disabled class="btn btn-danger rounded-4">Занят</button>
+                        }
+                    </div>
+                </div>
+            }
+                
+
+            <div class="row my-4" id="description1">
+                <div class="col p-0">
+                    <p>Описание</p>
+                    <p>
+                        @Html.Raw(@Model.Description);
+                    </p>
+                </div>
+            </div>
+
+        </div>
+            
+        <div class="col-md-3 text-start px-4">
+            @if (Model.Accounts.Count > 0)
+            {
+                var minPrice = Model.Accounts.OrderBy(u => u.Price).Select(u => u.Price).First();
+                <p class="fs-2 m-0">от @minPrice руб.</p>
+            }
+            else
+            {
+                <p class="fs-2 m-0">от 0 руб.</p>
+            }
+
+            @if (Model.Accounts.FirstOrDefault(u => u.IsRented == false) != null)
+            {
+                <p class="fs-6 text-success ">&#8226 в наличии</p>
+            }
+            else
+            {
+                <p class="fs-6 text-danger ">&#8226 нет в наличии</p>
+            }
+            <div class="d-grid gap-2 my-4">
+                <a href="#description1" class="btn btn-primary rounded-4">Подробнее</a>
+            </div>
+            <p class="fs-5 my-0">Характеристики</p>
+            <p class=" fs-6 text-secondary my-1">Время прохождения: <span class="text-black">@Model.TransitTime часов</span></p>
+            <p class=" fs-6 text-secondary my-1">Перевод: <span class="text-black">@Model.Translate</span></p>
+            <p class=" fs-6 text-secondary my-1">Жанр:
+                <span class="text-black">
+                    @Model.ProductCategories[0].Name
+                    @for (int i = 1; i < Model.ProductCategories.Count; i++)
+                    {
+                        <span>, </span>@Model.ProductCategories[i].Name
+                    }
+                </span>
+            </p>
+            <p class=" fs-6 text-secondary my-1">Год выпуска: <span class="text-black">@Model.Year</span></p>
+        </div>
+    </div>
+    
+    <!-- Модальное окно -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Заголовок модального окна -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление в корзину</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+    
+                <!-- Тело модального окна -->
+                <div class="modal-body" id="modelBody">
+                    Это пример модального окна с помощью Bootstrap.
+                </div>
+    
+                
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+@section Scripts
+{
+    
+    <script>
+        async function addToCart(id){
+           
+            const url='@Url.Action("AddToCart", "Cart")'+`?id=${id}`;
+            const response=await fetch(url);
+            if (response.ok===true){
+                const button=document.getElementById("button_"+id);
+                const accountBody=document.getElementById("account_"+id);
+                button.remove();
+                
+                const  link=document.createElement("a");
+                link.classList.add("btn","btn-primary","rounded-4");
+                link.textContent="В корзине";
+                link.href="@Url.Action("ViewCart","Cart")";
+                
+                accountBody.appendChild(link);
+                
+                const cartElem=document.getElementById("cartCount");
+                cartElem.textContent="(1)";
+            }
+            else{
+                const message=await response.text();
+                const myModal = document.getElementById("myModal");
+                const elem=document.getElementById("modelBody");
+                elem.textContent=message;
+                const modal = new bootstrap.Modal(myModal);
+                modal.show();
+                                
+            }
+        }
+    </script>
+}
+

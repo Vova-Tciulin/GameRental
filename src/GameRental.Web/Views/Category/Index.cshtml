@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ProductCategoryVM>
+
+@{
+    ViewBag.Title = "каталог";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid m-4 " >
+    <div class="row">
+      <div class="col">
+        <p class="fs-3 mb-1">Каталог</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Каталог</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="row border text-center" style="margin-right: 40px;">
+      
+      @foreach (var category in Model)
+      {
+        <div class="col-md-3 p-0 ">
+          <a class="p-0 text-decoration-none" asp-action="Index" asp-controller="Product" asp-route-id="@category.Id" >
+            <div class="col  custom-link pt-4 border">
+              <img src="@WebConst.ImageCategoryPath@category.ImgPath" style="height: 150px;" alt="">
+              <p class="text-dark">@category.Name</p>
+            </div>
+          </a>
+        </div>
+      }
+      
+    </div>
+  </div>

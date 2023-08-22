@@ -1,0 +1,54 @@
+﻿@model List<UserVm>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="col offset-md-3 text-start  mt-lg-5">
+        <h2>Пользователи</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Пользователи</li>
+            </ol>
+        </nav>
+        
+    </div>
+    <div class="col-md-6 offset-md-3 my-lg-3">
+        
+        <table class="table table-sm table-striped border">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Почта</th>
+                <th scope="col">ссылка на соц. сеть</th>
+                <th scope="col">изменить роль</th>
+                <th scope="col">подробнее</th>
+            </tr>
+            </thead>
+            <tbody>
+                
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <th scope="row">@user.Email</th>
+                    <td>@user.LinkToNetwork</td>
+                    <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="ChangeRole" asp-route-id=@user.Id>изменить роль</a></td>
+                    <td><a class="btn btn-sm btn-primary rounded-4 " asp-action="UserDetails" asp-route-id=@user.Id>подробнее</a></td>
+                </tr>
+            }
+                
+
+            </tbody>
+
+        </table>
+        
+        
+    </div>
+    
+</div>
+
+
+
+

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "панель администратора";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="col text-center mt-lg-4">
+        <h2>Панель администратора</h2>
+    </div>
+    <div class="row justify-content-center mt-lg-5 mx-lg-5 p-2" >
+        <div class="card p-0 mx-2" style="width: 16rem; height: 10rem;">
+            <a asp-area="Administration" asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width: 100%; height: 100%;">
+                <h2 class=" pt-5 text-dark">категории</h2>
+            </a>
+        </div>
+        <div class="card p-0 mx-2" style="width: 16rem; height: 10rem;">
+            <a asp-area="Administration" asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width: 100%; height: 100%;">
+                <h2 class=" pt-5 text-dark">игры</h2>
+            </a>
+        </div>
+        <div class="card p-0 mx-2" style="width: 16rem; height: 10rem;">
+            <a asp-area="Administration" asp-controller="RentAccount" asp-action="Index" class="btn btn-secondary" style="width: 100%; height: 100%;">
+                <h2 class=" pt-4 text-dark">игровые аккаунты</h2>
+            </a>
+        </div>
+        <div class="card p-0 mx-2" style="width: 16rem; height: 10rem;">
+            <a asp-area="Administration" asp-controller="User" asp-action="Index" class="btn btn-secondary" style="width: 100%; height: 100%;">
+                <h2 class=" pt-5 text-dark">пользователи</h2>
+            </a>
+        </div>
+        <div class="card p-0 mx-2" style="width: 16rem; height: 10rem;">
+            <a asp-controller="Order" asp-action="Index" asp-area="Administration" class="btn btn-secondary" style="width: 100%; height: 100%;">
+                <h2 class=" pt-5 text-dark">заказы</h2>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿
+@model CartVm?
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<div class="container-fluid bg-body-tertiary">
+    <div class="row mx-5 my-3">
+        <div class="col p-0">
+            <p class="fs-2 m-0">Корзина</p>
+            <a asp-controller="Category" asp-action="Index" class=" text-decoration-none link-secondary">Вернуться в каталог</a>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <form asp-action="MakeOrder">
+            <div class="row mx-5 py-3" id="cartMain">
+            
+                <div class="col-md-7">
+                
+                    <div class="row px-2 py-3 border">
+                        <div class="col">
+                            <p class="p-0 fs-5">Товары в корзине</p>
+                        </div>
+                        <div class="col align-self-end text-end ">
+                            <button onclick="dropCart()" class="btn btn-link link-secondary ">Очистить &#9747</button>
+                        </div>
+                    </div>
+                
+                    <div class="row border border-top-0">
+                        <div class="col-md-3 p-1">
+                            <img src="@WebConst.ImageProductPath@Model.ImgName" class="rounded" style="width: 150px;">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <p class="fs-4 text-secondary">@Model.Name</p>
+                        </div>
+                        <div class="col-md-3">
+                
+                            <div class="row ">
+                                <div class="col-md-5 pt-3 d-flex align-items-center justify-content-end">
+                                    <label>Количество дней:</label>
+                                </div>
+                                <div class="col-md-7 pl-0 pt-3">
+                                    <select id="days" class="form-select" asp-for="DayOfRent" name="days">
+                                        <option value="7" data-price="@Model.Price">7</option>
+                                        <option value="14" data-price="@Model.Price">14</option>
+                                        <option value="21" data-price="@Model.Price">21</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-center justify-content-start">
+                            <p class="fs-5" id="totalPrice2">@Model.Price руб.</p>
+                        </div>
+                    </div>
+                
+                </div>
+
+                <div class="col-md-3 border mx-5">
+                    <div class="col">
+                        <div class="row py-4">
+                            <div class="col-md-4">
+                                <p class="fs-4">Итого:</p>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="fs-4" id="totalPrice1">@Model.Price руб.</p>
+                            </div>
+                        </div>
+                
+                        <div class="row">
+                            <div class="col text-center">
+                                <button class="btn btn-primary rounded-4 btn-md">Перейти к оформлению</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+           
+            
+            </div>
+        </form>
+    }
+    
+</div>
+
+@section Scripts
+{
+    <script>
+        async function dropCart(){
+            const url='@Url.Action("DeleteProductFromCart", "Cart")';
+            const response=await fetch(url);
+            if (response.ok===true){
+                const elem=document.getElementById("cartMain");
+                elem.remove();
+                const cartElem=document.getElementById("cartCount");
+                cartElem.textContent="";
+                                
+            }
+            
+        }
+        
+       
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const daysSelect = document.getElementById("days");
+            const totalPriceSpan1 = document.getElementById("totalPrice1");
+            const totalPriceSpan2 = document.getElementById("totalPrice2");
+            
+            daysSelect.addEventListener("change", function () {
+                const selectedOption = daysSelect.options[daysSelect.selectedIndex];
+                const priceFor7Days = parseFloat(selectedOption.getAttribute("data-price"));
+                const selectedDays = parseInt(selectedOption.value);
+                const totalPrice = (priceFor7Days * selectedDays / 7).toFixed(2);
+                totalPriceSpan1.textContent = totalPrice+" руб.";
+                totalPriceSpan2.textContent = totalPrice+" руб.";
+                
+               
+            });
+    
+        });
+    </script>
+
+}
+
+
+
+
+

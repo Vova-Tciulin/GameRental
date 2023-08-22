@@ -1,0 +1,103 @@
+﻿@model List<OrderVm>
+
+@{
+    ViewBag.Title = "Заказы";
+    Layout = "_Layout";
+}
+
+
+<div class="container-fluid">
+    <div class="col text-start offset-md-2  mt-lg-5">
+        <h2>Заказы</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none link-secondary">Главная</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Заказы</li>
+            </ol>
+        </nav>
+        
+    </div>
+    
+    <div class="col-md-8 offset-md-2 my-lg-3">
+            @if (Model.Count == 0)
+            {
+                <div class="col text-center">
+                    <h2>Нет ни одного заказа</h2>
+                </div>
+            }
+            else
+            {
+                @if (Model.Exists(u=>u.IsActive))
+                {
+                    <h2>Активные заказы</h2>
+                    <table class="table table-sm table-striped border">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Аккаунт</th>
+                            <th scope="col">Пользователь</th>
+                            <th scope="col">Дата заказа</th>
+                            <th scope="col">Дата окончания аренды</th>
+                            <th scope="col">В аренде</th>
+                            <th scope="col">Цена</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (var order in Model.Where(u => u.IsActive==true))
+                        {
+                            <tr>
+                                <th scope="row">@order.Id</th>
+                                <td>@order.Account.Name<span> #</span>@order.Account.AccountNumber</td>
+                                <td>@order.User.Email</td>
+                                <td>@order.OrderDate</td>
+                                <td>@order.EndOrderDate</td>
+                                <td>да</td>
+                                <td>@order.Cost руб.</td>
+                                
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                @if(Model.Exists(u => u.IsActive==false))
+                {
+                         
+                    <h2>Завершенные заказы</h2>
+                    <table class="table table-sm table-striped border">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">Аккаунт</th>
+                            <th scope="col">Пользователь</th>
+                            
+                            <th scope="col">Дата заказа</th>
+                            <th scope="col">Дата окончания аренды</th>
+                            <th scope="col">В аренде</th>
+                            <th scope="col">Цена</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (var order in Model.Where(u => u.IsActive==false))
+                        {
+                            <tr>
+                                <th scope="row">@order.Id</th>
+                                <td>@order.Account.Name<span> #</span>@order.Account.AccountNumber</td>
+                                <td>@order.User.Email</td>
+                                <td>@order.OrderDate</td>
+                                <td>@order.EndOrderDate</td>
+                                <td>нет</td>
+                                <td>@order.Cost руб.</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            }
+            
+        </div>
+    
+</div>

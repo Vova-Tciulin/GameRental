@@ -1,0 +1,44 @@
+﻿@model CategoryForUpsertVm
+
+@{
+    ViewBag.Title = "Категория";
+    Layout = "_Layout";
+}
+
+@section Link
+{
+    <link rel="stylesheet" href="~/css/form.css">
+}
+
+
+
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5 vh-100"  tabindex="-1"  >
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-4 pb-5 border-bottom-0">
+                <h3 class="fw-bold mb-0 fs-4">Добавление категории</h3>
+                <a asp-area="Administration" asp-action="Index" asp-controller="Category"  class="btn-close"  aria-label="Close"></a>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form asp-action="AddCategory" method="post" enctype="multipart/form-data">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" type="text" class="form-control rounded-3" placeholder>
+                        <label asp-for="Name">Название категории</label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Image" class="form-label">Выберите изображение</label>
+                        <input class="form-control" type="file" asp-for="Image">
+                    </div>
+                    
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    @section Scripts {
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+ }
+</div>
+

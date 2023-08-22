@@ -1,0 +1,20 @@
+﻿
+@model UserDetailsVm
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container col-md-offset-3">
+    <h1>Информация о пользователе</h1>
+    <h2>@Model.Email</h2>
+    <h2>@foreach (var role in Model.Roles)
+        {
+            <h3>@role</h3>        
+        }
+    </h2>
+    <h3>@Model.LinkToNetwork</h3>
+    <h3><a asp-action="ChangeRole" asp-route-id=@Model.Id>Дать роль</a></h3>
+
+</div>
