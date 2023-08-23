@@ -10,6 +10,13 @@ public class ImageOperations:IImageOperations
     public ImageOperations(string imagePath)
     {
         _imagePath = imagePath+@"\images\";
+        
+        
+        if (!Directory.Exists(_imagePath))
+        {
+            string subpath = @"images\";
+            Directory.CreateDirectory($"{imagePath}/{subpath}");
+        }
     }
     
 
