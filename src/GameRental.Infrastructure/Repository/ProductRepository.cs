@@ -33,7 +33,7 @@ internal class ProductRepository:IProductRepository
         return await query.ToListAsync();
     }
 
-    public async Task<Product?> GetByIdAsync(int id,bool asTracking=false,params Expression<Func<Product, object>>[] includeProperties)
+    public async Task<Product?> GetByIdAsync(int id,bool asTracking=false,params Expression<Func<Product, object>>[]? includeProperties)
     {
         QueryTrackingBehavior track = asTracking switch
         {

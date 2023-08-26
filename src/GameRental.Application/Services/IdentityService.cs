@@ -26,21 +26,19 @@ public class IdentityService:IIdentityService
 
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
-    
-    
     private readonly IMapper _map;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public IdentityService(IMapper map,
-        UserManager<User> userManager, SignInManager<User> signInManager,
+    public IdentityService(
+        IMapper map,
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
         RoleManager<IdentityRole> roleManager)
     {
-        
         _map = map;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
-        
     }
 
     public async Task<OperationDetails> CreateUserAsync(UserRegistrationDto userDto)

@@ -70,7 +70,7 @@ public class ProductService:IProductService
         return _map.Map<IEnumerable<ProductDTO>>(products);
     }
 
-    public async Task<ProductDTO> GetProductAsync(int id, params Expression<Func<Product, object>>[] includeProperties)
+    public async Task<ProductDTO> GetProductAsync(int id, params Expression<Func<Product, object>>[]? includeProperties)
     {
         var product = await _db.ProductRepository.GetByIdAsync(id,false,includeProperties);
         if (product==null)

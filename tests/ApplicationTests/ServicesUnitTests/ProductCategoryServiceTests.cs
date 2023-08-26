@@ -106,8 +106,7 @@ public class ProductCategoryServiceTests
         var categoryDto = new CategoryForUpsertDto() { Id = 1, Image = null, Name = "updatedName" };
         var category = new ProductCategory() { Id = 1, ImgPath = "test.jpeg", Name="OldName" };
         _unitOfWorkMock.Setup(u => u.ProductCategoryRepository.GetByIdAsync(categoryDto.Id)).ReturnsAsync(category);
-        var resultCategory = new ProductCategory() { Id = 1, ImgPath = "test.jpeg", Name = "test" };
-        
+
         //act
         await _productCategoryService.UpdateProductCategoryAsync(categoryDto);
         

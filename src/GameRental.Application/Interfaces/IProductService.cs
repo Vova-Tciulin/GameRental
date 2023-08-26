@@ -10,7 +10,7 @@ public interface IProductService
 {
     Task AddProductAsync(ProductAddDto productAddDto);
     Task<IEnumerable<ProductDTO>> GetProductsAsync(Expression<Func<Product,bool>>?filter=null,params Expression<Func<Product, object>>[] includeProperties);
-    Task<ProductDTO> GetProductAsync(int id,params Expression<Func<Product, object>>[] includeProperties);
+    Task<ProductDTO> GetProductAsync(int id,params Expression<Func<Product, object>>[]? includeProperties);
     Task UpdateProductAsync(ProductForUpdateDto productForUpdateDto);
     Task RemoveProductAsync(int id);
 }
