@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 using EmptyFiles;
 using FluentValidation;
@@ -149,7 +150,9 @@ public class ProductServiceTests
         var id = 1;
         var image = new Image();
         var product = new Product() { Id = 1, Images = new List<Image>(){image}};
-        _unitOfWorkMock.Setup(u => u.ProductRepository.GetByIdAsync(id, true, u => u.Images));
+        _unitOfWorkMock
+            .Setup(u => u.ProductRepository.GetByIdAsync(id, true, p => p.Images))
+            .ReturnsAsync(product);
         
         //act
         await _productService.RemoveProductAsync(id);
@@ -169,6 +172,54 @@ public class ProductServiceTests
         Assert.ThrowsAsync<ProductNotFoundExeption>(() => _productService.RemoveProductAsync(id));
     }
 
-    //добавить тес для updaeProductAsync
+    [Test]
+    public async Task UpdateProductAsync_ValidProduct_UpdateProduct()
+    {
+        var productForUpdateDto = new ProductForUpdateDto()
+        {
+            Id = 1, Description = "test", ProductCategoriesId = new[] { 1, 2 },
+            Name = "TestName", Translate = "Eng", Year = 2000,
+            ImagesId = new[] { 1}, ImageCollection = { new FormFile(null, 0, 0, "image.png", "image.png") }
+        };
+        var removeImages = new List<Image>() { new Image() { Id = 1 }, new Image() { Id = 3 } };
+        var product = new Product() { Id = 1, Images = removeImages};
+        var validationResult = new ValidationResult();
+        var categories = new List<ProductCategory>()
+            { new ProductCategory() { Id = 1 }, new ProductCategory() { Id = 2 } };
+
+        _productForUpdateDtoValidatorMock
+            .Setup(u => u.ValidateAsync(productForUpdateDto,default))
+            .ReturnsAsync(validationResult);
+        _unitOfWorkMock
+            .Setup(u => u.ProductRepository
+                .GetByIdAsync(productForUpdateDto.Id, true, p=>p.ProductCategories,p=>p.Images))
+            .ReturnsAsync(product);
+        _unitOfWorkMock
+            .Setup(u => u.ProductCategoryRepository.GetAllAsync(x =>
+                productForUpdateDto.ProductCategoriesId.Contains(x.Id)))
+            .ReturnsAsync(categories);
+        
+        //act
+        await _productService.UpdateProductAsync(productForUpdateDto);
+        
+        //assert
+        Assert.That(product.Images, Has.Count.EqualTo(2));
+        Assert.That(product.ProductCategories, Is.EqualTo(categories));
+        _unitOfWorkMock.Verify(u=>u.SaveChangesAsync(),Times.Once);
+    }
+
+    [Test]
+    public void UpdateProductAsync_InvalidProduct_ThrowNotValidateModelException()
+    {
+        var productForUpdate = new ProductForUpdateDto();
+        var validationFailure = new ValidationFailure("test", "Error message test");
+        var validationResult = new ValidationResult(new []{validationFailure});
+        _productForUpdateDtoValidatorMock
+            .Setup(u => u.ValidateAsync(productForUpdate,default))
+            .ReturnsAsync(validationResult);
+        
+        //act && assert
+        Assert.ThrowsAsync<NotValidateModelException>(() => _productService.UpdateProductAsync(productForUpdate));
+    }
     
 }
