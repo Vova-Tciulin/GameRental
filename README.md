@@ -40,10 +40,4 @@
 - создать базу данных, использую комадку в консоли: dotnet ef database update
 
 
-## UI 
 
-![first](images/first.png)
-![second](second/first.png)
-![third](third/first.png)
-![four](four/first.png)
-![five](five/first.png)
