@@ -41,9 +41,17 @@
 
 
 ## UI 
+**Часть изображений работы веб-сайта**
+<div style="display: flex; justify-content: center; align-items: center; ">
+ <p>Основная страница:</p>
+ <img src="images/first.png" width="600"   > 
+ <p>Страница корзины:</p>
+ <img src="images/second.png" width="600" >
+ <p>Информация о заказах:</p>
+ <img src="images/thrid.png" width="600" >
+ <p>Информациях об играх:</p>
+ <img src="images/four.png" width="600">
+ <p>Информация о доступных акканутах:</p>
+ <img src="images/five.png" width="600" >
+</div>
 
-![first](images/first.png)
-![second](images/second.png)
-![third](images/third.png)
-![four](images/four.png)
-![five](images/five.png)
