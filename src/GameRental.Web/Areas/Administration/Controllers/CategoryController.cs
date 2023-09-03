@@ -25,8 +25,8 @@ public class CategoryController:Controller
     public async Task<IActionResult> Index()
     {
         var categories = await _services.ProductCategoryService.GetCategoriesAsync();
-        var caregoriesVM = _map.Map<IEnumerable<ProductCategoryVM>>(categories);
-        return View(caregoriesVM);
+        var caregoriesVm = _map.Map<List<ProductCategoryVM>>(categories);
+        return View(caregoriesVm);
         
     }
     

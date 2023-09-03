@@ -23,7 +23,7 @@ public class ProductController:Controller
     public async Task<IActionResult> Index()
     {
         var products = await _services.ProductService.GetProductsAsync(null,u=>u.ProductCategories);
-        var productsVM = _map.Map<IEnumerable<ProductVM>>(products);
+        var productsVM = _map.Map<List<ProductVM>>(products);
 
         return View(productsVM);
     }

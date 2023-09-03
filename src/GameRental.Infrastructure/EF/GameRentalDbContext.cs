@@ -9,12 +9,12 @@ public class GameRentalDbContext:IdentityDbContext<User>
 {
     private readonly string _connectionString="Server=(localdb)\\MSSQLLocalDB;Database=GameRentalDB;Trusted_Connection=True";
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<ProductCategory> ProductCategories { get; set; }
-    public DbSet<Image> Images { get; set; }
-    public DbSet<Account> Accounts { get; set; }
-    public DbSet<Console> Consoles { get; set; }
-    public DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<ProductCategory> ProductCategories { get; set; }
+    public virtual DbSet<Image> Images { get; set; }
+    public  virtual DbSet<Account> Accounts { get; set; }
+    public virtual DbSet<Console> Consoles { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
 
     public GameRentalDbContext()
     {

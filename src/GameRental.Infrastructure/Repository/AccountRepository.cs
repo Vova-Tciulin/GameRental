@@ -9,8 +9,6 @@ namespace GameRental.Infrastructure.Repository;
 public class AccountRepository:IAccountRepository
 {
     private readonly GameRentalDbContext _db;
-
-    
     public AccountRepository(GameRentalDbContext db)
     {
         _db = db;
