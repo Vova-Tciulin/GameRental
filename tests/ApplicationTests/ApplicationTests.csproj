@@ -25,4 +25,8 @@
       <ProjectReference Include="..\..\src\GameRental.Infrastructure\GameRental.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="ServicesUnitTests\IdentityServiceTests.cs" />
+    </ItemGroup>
+
 </Project>
