@@ -11,6 +11,9 @@ using GameRental.Domain.IRepository;
 
 namespace GameRental.Application.Services;
 
+/// <summary>
+/// Сервис для CRUD операций с аккаунтами для игр 
+/// </summary>
 public class AccountService:IAccountService
 {
     private readonly IUnitOfWork _db;

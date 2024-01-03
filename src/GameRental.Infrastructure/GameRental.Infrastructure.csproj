@@ -20,6 +20,7 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.4.23259.5" />
       <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
+      <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
     </ItemGroup>
 
 </Project>

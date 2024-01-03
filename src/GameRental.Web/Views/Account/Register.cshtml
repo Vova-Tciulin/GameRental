@@ -38,6 +38,13 @@
                         <input asp-for="ConfirmPassword" type="password" class="form-control rounded-3"  placeholder="Password">
                         <label asp-for="ConfirmPassword">Подтвердите пароль</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <select asp-for="Role" class="form-select" aria-label="Default select example">
+                          <option selected>Роль в системе</option>
+                          <option value="admin">Администратор</option>
+                          <option value="user">Пользователь</option>
+                        </select>
+                    </div>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Регистрация</button>
                 </form>

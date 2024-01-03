@@ -12,7 +12,7 @@ using GameRental.Domain.Entities;
 using GameRental.Domain.Exceptions;
 using GameRental.Domain.IRepository;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+
 using Moq;
 
 namespace ApplicationTests.ServicesUnitTests;

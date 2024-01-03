@@ -52,13 +52,8 @@ public class IdentityService:IIdentityService
         {
             return new OperationDetails(false,result.Errors.ToString(),"");
         }
-
-        var numOfUsers=await _userManager.Users.CountAsync();
-        if (numOfUsers==1)
-        {
-            await _userManager.AddToRoleAsync(user, "Admin");
-        }
-        await _userManager.AddToRoleAsync(user, "User");
+        
+        await _userManager.AddToRoleAsync(user, userDto.Role);
         
         return new OperationDetails(true,"Регистрация прошла успешно","");
     }

@@ -18,4 +18,7 @@ public class UserRegistrationModel
     [DataType(DataType.Password)]
     [Compare("Password", ErrorMessage = "Пароли не совпадают")]
     public string ConfirmPassword { get; set; }
+
+    [Required(ErrorMessage = "Обязательное поле")]
+    public string Role { get; set; }
 }

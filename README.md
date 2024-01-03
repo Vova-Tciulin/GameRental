@@ -36,8 +36,9 @@
 
 ## Запуск проекта
 
+- Для запуска необходимо иметь .NET 7 SDK, MS SQL Server 
 - Клонировать проект: https://github.com/Vova-Tciulin/GameRental.git
-- создать базу данных, использую комадку в консоли: dotnet ef database update
+- собрать проект и запустить его 
 
 
 ## UI 

@@ -13,9 +13,12 @@ namespace GameRental.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<GameRentalDbContext>();
+        services.AddDbContext<GameRentalDbContext>(o =>
+        {
+            o.UseSqlServer(configuration["ConnectionString"]);
+        });
         
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
