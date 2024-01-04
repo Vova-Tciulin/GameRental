@@ -8,21 +8,24 @@
 
 
 <div class="container-fluid bg-body-tertiary">
-    <div class="row mx-5 my-3" style="height: 80vh">
-        <div class="col p-0">
-            <p class="fs-2 m-0">Корзина пуста</p>
-            
-            <a asp-controller="Category" asp-action="Index" class=" text-decoration-none link-secondary">Вернуться в каталог</a>
-        </div>
-    </div>
+    @if (Model == null)
+    {
+        <div class="row mx-5 my-3" style="height: 80vh">
+            <div class="col p-0">
+                <p class="fs-2 m-0">Корзина пуста</p>
 
+                <a asp-controller="Category" asp-action="Index" class=" text-decoration-none link-secondary">Вернуться в каталог</a>
+            </div>
+        </div>
+    }
+    
     @if (Model != null)
     {
         <form asp-action="MakeOrder">
             <div class="row mx-5 py-3" id="cartMain">
-            
+
                 <div class="col-md-7">
-                
+
                     <div class="row px-2 py-3 border">
                         <div class="col">
                             <p class="p-0 fs-5">Товары в корзине</p>
@@ -31,7 +34,7 @@
                             <button onclick="dropCart()" class="btn btn-link link-secondary ">Очистить &#9747</button>
                         </div>
                     </div>
-                
+
                     <div class="row border border-top-0">
                         <div class="col-md-3 p-1">
                             <img src="@WebConst.ImageProductPath@Model.ImgName" class="rounded" style="width: 150px;">
@@ -40,7 +43,7 @@
                             <p class="fs-4 text-secondary">@Model.Name</p>
                         </div>
                         <div class="col-md-3">
-                
+
                             <div class="row ">
                                 <div class="col-md-5 pt-3 d-flex align-items-center justify-content-end">
                                     <label>Количество дней:</label>
@@ -58,7 +61,7 @@
                             <p class="fs-5" id="totalPrice2">@Model.Price руб.</p>
                         </div>
                     </div>
-                
+
                 </div>
 
                 <div class="col-md-3 border mx-5">
@@ -71,7 +74,7 @@
                                 <p class="fs-4" id="totalPrice1">@Model.Price руб.</p>
                             </div>
                         </div>
-                
+
                         <div class="row">
                             <div class="col text-center">
                                 <button class="btn btn-primary rounded-4 btn-md">Перейти к оформлению</button>
@@ -79,13 +82,13 @@
                         </div>
                     </div>
                 </div>
-                
-           
-            
+
+
+
             </div>
         </form>
     }
-    
+
 </div>
 
 @section Scripts
